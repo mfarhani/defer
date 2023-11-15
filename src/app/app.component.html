@@ -1,0 +1,67 @@
+<button (click)="customCondition=true">Click to load deferred component</button>
+<!--@defer: Conditionally defers the rendering of deferred-cmp based on customCondition.-->
+<!--This allows for dynamic rendering based on certain criteria.-->
+<!--@placeholder: Provides a placeholder for the deferred component with a minimum 2-second delay.-->
+<!--This ensures a smooth loading experience by displaying a meaningful content structure while waiting.-->
+<!--@loading: Indicates that the deferred component is in the loading state with a minimum 2-second delay.-->
+<!--This message serves as a temporary indicator to inform users about the ongoing loading process.-->
+@defer(when customCondition) {
+<deferred-cmp></deferred-cmp>
+}
+@placeholder(minimum 2s){
+<h1>Placeholder for deferred component</h1>
+}
+@loading(minimum 2s){
+<h1>Deferred component is loading</h1>
+}
+<hr>
+<!--'On' allows us to use predefined triggers for which loading will be initiated.-->
+<!--'idle' will trigger the deferred loading once the browser has reached an idle state
+(detected using the requestIdleCallback API under the hood). This is the default behavior with a defer block.-->
+@defer(on idle){
+<idle-deferred></idle-deferred>
+}@placeholder{
+<h2>Placeholder for idle deferred component</h2>
+}
+<hr>
+<!--'viewport' would trigger the deferred block when the specified content enters the viewport-->
+@defer(on viewport(referenceElement)){
+<viewport-deferred></viewport-deferred>
+}@placeholder{
+<h2>Placeholder for viewport deferred component</h2>
+}
+<hr>
+<!--'interaction' will trigger the deferred block when the user interacts with the specified element through click or keydown events.-->
+@defer(on interaction(referenceElement)){
+<interaction-deferred></interaction-deferred>
+}@placeholder{
+<h2>Placeholder for interaction deferred component</h2>
+}
+<hr>
+<!--'hover' triggers deferred loading when the mouse has hovered over the trigger area.-->
+@defer(on hover(referenceElement)){
+<hover-deferred></hover-deferred>
+}@placeholder{
+<h2>Placeholder for hover deferred component</h2>
+}
+<hr>
+<!--'immediate' triggers the deferred load immediately, meaning once the client has finished rendering,
+ the defer chunk would then start fetching right away.-->
+@defer(on immediate){
+<immediate-deferred></immediate-deferred>
+}@placeholder{
+<h2>Placeholder for immediate deferred component</h2>
+}
+<hr>
+<!--'timer(x)' would trigger after a specified duration. The duration is required and can be specified in ms or s.-->
+@defer(on timer(3s)){
+<timer-deferred></timer-deferred>
+}@placeholder{
+<h2>Placeholder for timer deferred component</h2>
+}
+<hr>
+<div class="reference-element" #referenceElement>
+  <h2>Reference Element</h2>
+  <div>Click to load 'interaction deferred component'</div>
+  <div>Hover to load hover deferred component</div>
+</div>
